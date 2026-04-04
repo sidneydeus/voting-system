@@ -1,0 +1,14 @@
+name: voting-system
+recipe: drupal10
+
+config:
+  docroot: web
+  php: "8.2"
+  via: apache
+  database: mysql:8.0
+
+services:
+  appserver:
+    overrides:
+      environment:
+        LANDO_ALLOW_SUPERUSER: 1
