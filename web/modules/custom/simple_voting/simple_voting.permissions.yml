@@ -1,0 +1,8 @@
+administer simple voting:
+  title: 'Administer simple voting'
+
+access simple voting:
+  title: 'Access voting questions'
+
+vote on simple voting:
+  title: 'Vote on questions'

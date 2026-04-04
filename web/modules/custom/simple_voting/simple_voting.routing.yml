@@ -1,0 +1,96 @@
+simple_voting.admin_questions:
+  path: '/admin/content/simple-voting'
+  defaults:
+    _controller: '\Drupal\simple_voting\Controller\VotingController::adminQuestions'
+    _title: 'Voting questions'
+  requirements:
+    _permission: 'administer simple voting'
+
+simple_voting.question_add:
+  path: '/admin/content/simple-voting/add'
+  defaults:
+    _form: '\Drupal\simple_voting\Form\QuestionForm'
+    _title: 'Add question'
+  requirements:
+    _permission: 'administer simple voting'
+
+simple_voting.question_edit:
+  path: '/admin/content/simple-voting/{question}/edit'
+  defaults:
+    _form: '\Drupal\simple_voting\Form\QuestionForm'
+    _title: 'Edit question'
+  requirements:
+    _permission: 'administer simple voting'
+    question: '\d+'
+
+simple_voting.question_delete:
+  path: '/admin/content/simple-voting/{question}/delete'
+  defaults:
+    _form: '\Drupal\simple_voting\Form\QuestionDeleteForm'
+    _title: 'Delete question'
+  requirements:
+    _permission: 'administer simple voting'
+    question: '\d+'
+
+simple_voting.question_options:
+  path: '/admin/content/simple-voting/{question}/options'
+  defaults:
+    _controller: '\Drupal\simple_voting\Controller\VotingController::adminOptions'
+    _title: 'Question options'
+  requirements:
+    _permission: 'administer simple voting'
+    question: '\d+'
+
+simple_voting.option_add:
+  path: '/admin/content/simple-voting/{question}/options/add'
+  defaults:
+    _form: '\Drupal\simple_voting\Form\OptionForm'
+    _title: 'Add option'
+  requirements:
+    _permission: 'administer simple voting'
+    question: '\d+'
+
+simple_voting.option_edit:
+  path: '/admin/content/simple-voting/{question}/options/{option}/edit'
+  defaults:
+    _form: '\Drupal\simple_voting\Form\OptionForm'
+    _title: 'Edit option'
+  requirements:
+    _permission: 'administer simple voting'
+    question: '\d+'
+    option: '\d+'
+
+simple_voting.option_delete:
+  path: '/admin/content/simple-voting/{question}/options/{option}/delete'
+  defaults:
+    _form: '\Drupal\simple_voting\Form\OptionDeleteForm'
+    _title: 'Delete option'
+  requirements:
+    _permission: 'administer simple voting'
+    question: '\d+'
+    option: '\d+'
+
+simple_voting.settings:
+  path: '/admin/config/content/simple-voting'
+  defaults:
+    _form: '\Drupal\simple_voting\Form\VotingSettingsForm'
+    _title: 'Voting settings'
+  requirements:
+    _permission: 'administer simple voting'
+
+simple_voting.questions:
+  path: '/voting'
+  defaults:
+    _controller: '\Drupal\simple_voting\Controller\VotingController::listQuestions'
+    _title: 'Voting'
+  requirements:
+    _permission: 'access simple voting'
+
+simple_voting.question_view:
+  path: '/voting/{question}'
+  defaults:
+    _controller: '\Drupal\simple_voting\Controller\VotingController::viewQuestion'
+    _title: 'Question'
+  requirements:
+    _permission: 'access simple voting'
+    question: '\d+'

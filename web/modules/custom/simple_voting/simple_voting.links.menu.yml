@@ -1,0 +1,26 @@
+simple_voting.admin_questions:
+  title: 'Voting'
+  description: 'Manage voting questions and answer options.'
+  route_name: simple_voting.admin_questions
+  parent: system.admin_content
+  weight: 20
+
+simple_voting.settings:
+  title: 'Simple Voting'
+  description: 'General settings for the voting system.'
+  route_name: simple_voting.settings
+  parent: system.admin_config_content
+
+simple_voting.admin_questions_config:
+  title: 'Manage voting questions'
+  description: 'Create questions and manage voting options.'
+  route_name: simple_voting.admin_questions
+  parent: system.admin_config_content
+  weight: 1
+
+simple_voting.questions:
+  title: 'Voting'
+  description: 'Access the questions available for voting.'
+  route_name: simple_voting.questions
+  menu_name: main
+  weight: 0

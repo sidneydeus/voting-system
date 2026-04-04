@@ -1,0 +1,7 @@
+name: Simple Voting
+type: module
+description: 'Simple voting MVP for the CMS.'
+package: Custom
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:file

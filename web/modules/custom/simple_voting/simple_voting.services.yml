@@ -1,0 +1,4 @@
+services:
+  simple_voting.repository:
+    class: Drupal\simple_voting\VotingRepository
+    arguments: ['@database']
