@@ -11,6 +11,11 @@ use Drupal\Core\Database\IntegrityConstraintViolationException;
 class VotingRepository {
 
   /**
+   * Prefix used for question machine names.
+   */
+  public const MACHINE_NAME_PREFIX = 'voting_';
+
+  /**
    * The database connection.
    */
   public function __construct(
@@ -72,7 +77,7 @@ class VotingRepository {
   public function saveQuestion(array $values, ?int $question_id = NULL): int {
     $timestamp = time();
     $record = [
-      'machine_name' => $values['machine_name'],
+      'machine_name' => $this->normalizeMachineName($values['machine_name']),
       'title' => $values['title'],
       'description' => $values['description'] ?? '',
       'show_results' => (int) !empty($values['show_results']),
@@ -123,7 +128,7 @@ class VotingRepository {
    */
   public function machineNameExists(string $machine_name, ?int $exclude_question_id = NULL): bool {
     $query = $this->database->select('simple_voting_question', 'q')
-      ->condition('machine_name', $machine_name)
+      ->condition('machine_name', $this->normalizeMachineName($machine_name))
       ->fields('q', ['id']);
 
     if ($exclude_question_id) {
@@ -131,6 +136,19 @@ class VotingRepository {
     }
 
     return (bool) $query->execute()->fetchField();
+  }
+
+  /**
+   * Ensures the question machine name always carries the expected prefix.
+   */
+  public function normalizeMachineName(string $machine_name): string {
+    $machine_name = trim($machine_name);
+
+    if (str_starts_with($machine_name, self::MACHINE_NAME_PREFIX)) {
+      return $machine_name;
+    }
+
+    return self::MACHINE_NAME_PREFIX . $machine_name;
   }
 
   /**

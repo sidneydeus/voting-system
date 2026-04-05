@@ -2,7 +2,7 @@ name: voting-system
 recipe: drupal10
 
 config:
-  docroot: web
+  webroot: web
   php: "8.2"
   via: apache
   database: mysql:8.0
@@ -12,3 +12,7 @@ services:
     overrides:
       environment:
         LANDO_ALLOW_SUPERUSER: 1
+  phpmyadmin:
+    type: phpmyadmin
+    hosts:
+      - database

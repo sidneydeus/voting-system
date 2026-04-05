@@ -41,6 +41,12 @@ class QuestionForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state, ?int $question = NULL): array {
     $question_data = $question ? $this->repository->loadQuestion($question) : NULL;
+    $machine_name_prefix = VotingRepository::MACHINE_NAME_PREFIX;
+    $machine_name_default = $question_data['machine_name'] ?? '';
+
+    if ($machine_name_default && str_starts_with($machine_name_default, $machine_name_prefix)) {
+      $machine_name_default = substr($machine_name_default, strlen($machine_name_prefix));
+    }
 
     $form['question_id'] = [
       '#type' => 'value',
@@ -57,14 +63,18 @@ class QuestionForm extends FormBase {
 
     $form['machine_name'] = [
       '#type' => 'machine_name',
-      '#title' => $this->t('Unique identifier'),
+      '#title' => $this->t('Unique identifier suffix'),
       '#required' => TRUE,
-      '#default_value' => $question_data['machine_name'] ?? '',
+      '#default_value' => $machine_name_default,
       '#disabled' => (bool) $question_data,
+      '#field_prefix' => $machine_name_prefix,
+      '#placeholder' => 'my_question',
       '#machine_name' => [
         'exists' => [$this, 'machineNameExists'],
       ],
-      '#description' => $this->t('Used as the technical identifier for the question.'),
+      '#description' => $this->t('Enter only the final part of the identifier. It will be stored as "@example".', [
+        '@example' => $machine_name_prefix . 'my_question',
+      ]),
     ];
 
     $form['description'] = [
@@ -107,6 +117,17 @@ class QuestionForm extends FormBase {
   public function machineNameExists(string $value, array $element, FormStateInterface $form_state): bool {
     $question_id = $form_state->getValue('question_id');
     return $this->repository->machineNameExists($value, $question_id ? (int) $question_id : NULL);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state): void {
+    $machine_name = $form_state->getValue('machine_name');
+
+    if ($machine_name) {
+      $form_state->setValue('machine_name', $this->repository->normalizeMachineName($machine_name));
+    }
   }
 
   /**
