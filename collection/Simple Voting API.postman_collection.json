@@ -1,0 +1,250 @@
+{
+	"info": {
+		"_postman_id": "2dd181cc-d4e5-408c-8fb1-b9ba1f99c6af",
+		"name": "Simple Voting API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6917014",
+		"_collection_link": "https://red-desert-7731.postman.co/workspace/Voting~60dff18b-4e97-4d58-9690-7b2345d437b1/collection/6917014-2dd181cc-d4e5-408c-8fb1-b9ba1f99c6af?action=share&source=collection_link&creator=6917014"
+	},
+	"item": [
+		{
+			"name": "Drupal Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (pm.response.code === 200) {",
+							"  const data = pm.response.json();",
+							"  pm.collectionVariables.set('csrfToken', data.csrf_token || '');",
+							"  pm.collectionVariables.set('logoutToken', data.logout_token || '');",
+							"  pm.collectionVariables.set('currentUserName', data.current_user?.name || '');",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"{{username}}\",\n  \"pass\": \"{{password}}\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/user/login?_format=json",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "_format",
+							"value": "json"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Drupal Login Status",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/login_status?_format=json",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"login_status"
+					],
+					"query": [
+						{
+							"key": "_format",
+							"value": "json"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Questions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/simple-voting/questions",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"simple-voting",
+						"questions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Question By Identifier",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/simple-voting/questions/{{identifier}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"simple-voting",
+						"questions",
+						"{{identifier}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Vote",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"option_id\": {{optionId}}\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/simple-voting/questions/{{identifier}}/vote",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"simple-voting",
+						"questions",
+						"{{identifier}}",
+						"vote"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Results",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/simple-voting/questions/{{identifier}}/results",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"simple-voting",
+						"questions",
+						"{{identifier}}",
+						"results"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Drupal Logout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/logout?_format=json&token={{logoutToken}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"logout"
+					],
+					"query": [
+						{
+							"key": "_format",
+							"value": "json"
+						},
+						{
+							"key": "token",
+							"value": "{{logoutToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://voting-system.lndo.site"
+		},
+		{
+			"key": "identifier",
+			"value": "voting_minha_pergunta"
+		},
+		{
+			"key": "optionId",
+			"value": "1"
+		},
+		{
+			"key": "username",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "csrfToken",
+			"value": ""
+		},
+		{
+			"key": "logoutToken",
+			"value": ""
+		},
+		{
+			"key": "currentUserName",
+			"value": ""
+		}
+	]
+}

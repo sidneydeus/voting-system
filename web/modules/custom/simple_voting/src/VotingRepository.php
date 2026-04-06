@@ -72,6 +72,19 @@ class VotingRepository {
   }
 
   /**
+   * Loads a question by machine name.
+   */
+  public function loadQuestionByMachineName(string $machine_name): ?array {
+    $question = $this->database->select('simple_voting_question', 'q')
+      ->fields('q')
+      ->condition('machine_name', $this->normalizeMachineName($machine_name))
+      ->execute()
+      ->fetchAssoc();
+
+    return $question ?: NULL;
+  }
+
+  /**
    * Persists a question and returns its id.
    */
   public function saveQuestion(array $values, ?int $question_id = NULL): int {

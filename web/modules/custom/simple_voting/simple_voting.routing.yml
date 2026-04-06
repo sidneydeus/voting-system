@@ -94,3 +94,39 @@ simple_voting.question_view:
   requirements:
     _permission: 'access simple voting'
     question: '\d+'
+
+simple_voting.api_questions:
+  path: '/api/simple-voting/questions'
+  defaults:
+    _controller: '\Drupal\simple_voting\Controller\VotingApiController::listQuestions'
+    _format: 'json'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+
+simple_voting.api_question:
+  path: '/api/simple-voting/questions/{identifier}'
+  defaults:
+    _controller: '\Drupal\simple_voting\Controller\VotingApiController::viewQuestion'
+    _format: 'json'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+
+simple_voting.api_vote:
+  path: '/api/simple-voting/questions/{identifier}/vote'
+  defaults:
+    _controller: '\Drupal\simple_voting\Controller\VotingApiController::vote'
+    _format: 'json'
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'
+
+simple_voting.api_results:
+  path: '/api/simple-voting/questions/{identifier}/results'
+  defaults:
+    _controller: '\Drupal\simple_voting\Controller\VotingApiController::results'
+    _format: 'json'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
